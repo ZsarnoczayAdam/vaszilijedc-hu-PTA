@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+<?php
+        include_once "commons/navbar.php";
+    ?>
     hello bello <?=$user?>
 </body>
 </html>
