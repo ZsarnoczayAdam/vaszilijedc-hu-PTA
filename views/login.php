@@ -2,7 +2,7 @@
 session_start();
 
 // Adatbázis kapcsolat (változtasd meg saját adatbázisod adataival)
-$dsn = "mysql:host=localhost;dbname=adatbazis;charset=utf8mb4";
+$dsn = "mysql:host=localhost;dbname=viszilijedc;charset=utf8mb4";
 $username = "root";
 $password = "";
 $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
