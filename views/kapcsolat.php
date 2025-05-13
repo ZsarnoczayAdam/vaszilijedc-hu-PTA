@@ -1,7 +1,7 @@
 <?php
 session_start();
 $host = "localhost"; // Adatbázis szerver
-$dbname = "kapcsolat_db"; // Adatbázis neve
+$dbname = "viszilijedc"; // Adatbázis neve
 $username = "root"; // XAMPP esetén root
 $password = ""; // hagyd üresen
 

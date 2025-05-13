@@ -14,4 +14,8 @@
         include_once "views/login.php";
 
     }
+else if ($_GET["page"] == "messages") {
+    include_once "messages/messages.php";
+
+}
 ?>

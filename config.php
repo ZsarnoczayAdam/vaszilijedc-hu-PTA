@@ -5,13 +5,14 @@ $menu_elements = [
     "Blog" => "blog",
     "Galéria" => "galeria",
     "Kapcsolat" => "kapcsolat",
+    "Üzenetek" => "messages",
     "Login" => "login"
 ];
 
 $mysql_credentials = [
     "host" => "localhost",
-    "username" => "",
+    "username" => "root",
     "password" => "",
-    "db_name" => ""
+    "db_name" => "viszilijedc"
 ];
 ?>
