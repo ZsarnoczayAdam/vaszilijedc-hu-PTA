@@ -1,10 +1,10 @@
 <?php
 session_start();
-$host = $mysql_credentials["host"];// Adatbázis szerver
-$dbname = $mysql_credentials["db_name"]; // Adatbázis neve
-$username = $mysql_credentials["username"]; // XAMPP esetén root
+$host = $mysql_credentials["host"];
+$dbname = $mysql_credentials["db_name"]; 
+$username = $mysql_credentials["username"]; 
 $password = $mysql_credentials["password"]; 
-// Adatbázis kapcsolat (változtasd meg saját adatbázisod adataival)
+
 $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
 $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
@@ -15,7 +15,7 @@ try {
     die("Hiba az adatbázis kapcsolat során: " . $e->getMessage());
 }
 
-// Regisztráció
+
 if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
@@ -28,7 +28,7 @@ if (isset($_POST['register'])) {
     }
 }
 
-// Bejelentkezés
+
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -45,13 +45,13 @@ if (isset($_POST['login'])) {
     }
 }
 
-// Kijelentkezés
+
 if (isset($_GET['logout'])) {
     $_SESSION['user'] = $user[''];
     
 session_unset();
 session_destroy();
-setcookie(session_name(), '', time() - 3600, '/'); // A session cookie törlése
+setcookie(session_name(), '', time() - 3600, '/'); 
 header("Location: index.php?logout=true");
 exit();
 }

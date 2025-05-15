@@ -1,8 +1,8 @@
 <?php
-$host = $mysql_credentials["host"];// Adatbázis szerver
-$dbname = $mysql_credentials["db_name"]; // Adatbázis neve
-$username = $mysql_credentials["username"]; // XAMPP esetén root
-$password = $mysql_credentials["password"]; // hagyd üresen
+$host = $mysql_credentials["host"];
+$dbname = $mysql_credentials["db_name"]; 
+$username = $mysql_credentials["username"]; 
+$password = $mysql_credentials["password"]; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
@@ -14,7 +14,7 @@ try {
 $stmt = $pdo->prepare("SELECT * FROM messages ORDER BY datum DESC");
     $stmt->execute();
 
-    // 3. Fetch all rows
+    
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     include_once "views/messages.php";

@@ -8,19 +8,19 @@ if (!isset($_SESSION['user'])) {
 }
 
 
-// Mappa beállítása a képekhez
+
 $upload_dir = "uploads/";
 if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0777, true);
 }
 
-// Kép feltöltése
+
 if (isset($_POST['upload'])) {
     if (!empty($_FILES['image']['name'])) {
         $file_name = basename($_FILES['image']['name']);
         $target_file = $upload_dir . $file_name;
         
-        // Ellenőrizd, hogy valóban kép-e
+        
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
         
@@ -36,7 +36,7 @@ if (isset($_POST['upload'])) {
     }
 }
 
-// Képek listázása
+
 $images = array_diff(scandir($upload_dir), ['.', '..']);
 ?>
 
