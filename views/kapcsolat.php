@@ -1,8 +1,8 @@
 <?php
 session_start();
-$host = $mysql_credentials["host"];// Adatbázis szerver
-$dbname = $mysql_credentials["db_name"]; // Adatbázis neve
-$username = $mysql_credentials["username"]; // XAMPP esetén root
+$host = $mysql_credentials["host"];
+$dbname = $mysql_credentials["db_name"]; /
+$username = $mysql_credentials["username"]; 
 $password = $mysql_credentials["password"]; 
 
 try {
@@ -13,17 +13,17 @@ try {
     die("Hiba az adatbázis kapcsolat során: " . $e->getMessage());
 }
 
-// Űrlap ellenőrzés és mentés
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
     $message = trim($_POST["message"]);
 
-    // Szerveroldali ellenőrzés
+    
     if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Hibás adatok! Kérlek töltsd ki megfelelően az űrlapot.";
     } else {
-        // Adatok mentése adatbázisba
+        
         $stmt = $pdo->prepare("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)");
         if ($stmt->execute([$name, $email, $message])) {
             $_SESSION["last_submission"] = [
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "email" => $email,
                 "message" => $message
             ];
-            header("Location: ?page=kapcsolat&success=true"); // Az adatok megjelenítése az 5. oldalon
+            header("Location: ?page=kapcsolat&success=true"); 
             exit();
         } else {
             $error = "Hiba történt az adat mentése során.";
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <?php if (isset($_GET["success"]) && isset($_SESSION["last_submission"])): ?>
-        <h2>Ötödik oldal: Beküldött adatok</h2>
+        <h2>Beküldött adatok</h2>
         <p><strong>Név:</strong> <?= $_SESSION["last_submission"]["name"] ?></p>
         <p><strong>E-mail:</strong> <?= $_SESSION["last_submission"]["email"] ?></p>
         <p><strong>Üzenet:</strong> <?= $_SESSION["last_submission"]["message"] ?></p>
