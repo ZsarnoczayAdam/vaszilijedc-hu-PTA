@@ -1,10 +1,12 @@
 <?php
 session_start();
-
+$host = $mysql_credentials["host"];// Adatbázis szerver
+$dbname = $mysql_credentials["db_name"]; // Adatbázis neve
+$username = $mysql_credentials["username"]; // XAMPP esetén root
+$password = $mysql_credentials["password"]; 
 // Adatbázis kapcsolat (változtasd meg saját adatbázisod adataival)
-$dsn = "mysql:host=localhost;dbname=viszilijedc;charset=utf8mb4";
-$username = "root";
-$password = "";
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+
 $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
 
 try {
@@ -46,11 +48,11 @@ if (isset($_POST['login'])) {
 // Kijelentkezés
 if (isset($_GET['logout'])) {
     $_SESSION['user'] = $user[''];
-    session_start();
+    
 session_unset();
 session_destroy();
 setcookie(session_name(), '', time() - 3600, '/'); // A session cookie törlése
-header("Location: index.php");
+header("Location: index.php?logout=true");
 exit();
 }
 ?>
@@ -59,7 +61,9 @@ exit();
 
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
+<?php
+    include_once "commons/header.php";?>
+    
     <title>Bejelentkezés / Regisztráció</title>
 </head>
 <body>

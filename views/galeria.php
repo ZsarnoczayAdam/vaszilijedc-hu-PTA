@@ -43,7 +43,8 @@ $images = array_diff(scandir($upload_dir), ['.', '..']);
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
+<?php
+    include_once "commons/header.php";?>
     <title>Galéria</title>
 </head>
 <body>

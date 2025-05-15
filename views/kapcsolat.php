@@ -1,9 +1,9 @@
 <?php
 session_start();
-$host = "localhost"; // Adatbázis szerver
-$dbname = "viszilijedc"; // Adatbázis neve
-$username = "root"; // XAMPP esetén root
-$password = ""; // hagyd üresen
+$host = $mysql_credentials["host"];// Adatbázis szerver
+$dbname = $mysql_credentials["db_name"]; // Adatbázis neve
+$username = $mysql_credentials["username"]; // XAMPP esetén root
+$password = $mysql_credentials["password"]; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "email" => $email,
                 "message" => $message
             ];
-            header("Location: ?success=true"); // Az adatok megjelenítése az 5. oldalon
+            header("Location: ?page=kapcsolat&success=true"); // Az adatok megjelenítése az 5. oldalon
             exit();
         } else {
             $error = "Hiba történt az adat mentése során.";
@@ -43,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
+    <?php
+    include_once "commons/header.php";?>
+    
     <title>Kapcsolat</title>
     <script>
         function validateForm() {
@@ -62,13 +64,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <?php include_once 'commons/navbar.php'; ?>
-    <h2>Kapcsolatfelvételi űrlap</h2>
-    <form name="contactForm" method="post" onsubmit="return validateForm()">
-        Név: <input type="text" name="name" required><br>
-        E-mail: <input type="text" name="email" required><br>
-        Üzenet: <textarea name="message" required></textarea><br>
-        <button type="submit">Küldés</button>
-    </form>
+    <div class="container mt-5">
+  <h2 class="mb-4">Kapcsolatfelvételi űrlap</h2>
+  <form name="contactForm" method="post" action="/index.php?page=kapcsolat">
+    <div class="mb-3 row">
+      <label for="name" class="col-sm-2 col-form-label">Név</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="email" class="col-sm-2 col-form-label">E-mail</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="email" name="email" required>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="message" class="col-sm-2 col-form-label">Üzenet</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Küldés</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 
     <?php if (isset($error)): ?>
         <p style="color: red;"><?= $error ?></p>

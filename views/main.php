@@ -10,7 +10,11 @@
     <?php include_once "commons/navbar.php"; ?>
     
     <div class="container">
-        
+        <?php
+    if(isset($_GET["logout"])){
+       echo "<div class='alert alert-success'>Sikeres kijelentkezés!</div>"; 
+    }
+        ?>
         
         
         <div class="row mb-4">
@@ -49,5 +53,17 @@
 
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <footer class="bg-light text-center text-lg-start mt-5 border-top">
+  <div class="container p-4">
+    <div class="text-center">
+      <a href="https://vaszilijedc.hu" target="_blank" class="btn btn-outline-primary" style="text-decoration: none;">
+        Ugrás a vaszilijedc.hu weboldalra
+      </a>
+    </div>
+  </div>
+  <div class="text-center p-3 bg-secondary text-white">
+    
+  </div>
+</footer>
 </body>
 </html>
