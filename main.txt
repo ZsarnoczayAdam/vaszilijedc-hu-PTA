@@ -1,0 +1,50 @@
+package com.mycompany.sallainorbert;
+
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        DbManager db = new DbManager();
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- Menü ---");
+            System.out.println("1. Összes rendelés listázása");
+            System.out.println("2. Legdrágább étel(ek) listázása");
+            System.out.println("3. Új étel felvétele");
+            System.out.println("4. Étel árának módosítása");
+            System.out.println("0. Kilépés");
+            System.out.print("Választás: ");
+            int valaszt = sc.nextInt();
+            sc.nextLine(); // sorvége
+
+            switch (valaszt) {
+                case 1:
+                    List<Rendeles> rendelesek = db.getAll();
+                    for (Rendeles r : rendelesek) {
+                        System.out.println(r);
+                    }
+                    break;
+                case 2:
+                    db.getExpensive();
+                    break;
+                case 3:
+                    db.addNewMenu();
+                    break;
+                case 4:
+                    System.out.print("Étel ID: ");
+                    int id = sc.nextInt();
+                    System.out.print("Új ár: ");
+                    int ar = sc.nextInt();
+                    boolean siker = db.setNewPrice(id, ar);
+                    System.out.println(siker ? "Sikeres módosítás." : "Nem sikerült módosítani.");
+                    break;
+                case 0:
+                    System.out.println("Kilépés...");
+                    return;
+                default:
+                    System.out.println("Érvénytelen választás.");
+            }
+        }
+    }
+}

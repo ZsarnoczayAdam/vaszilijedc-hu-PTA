@@ -1,0 +1,39 @@
+package com.mycompany.sallainorbert;
+
+import java.time.LocalDateTime;
+
+public class Rendeles {
+    private int id;
+    private LocalDateTime datum;
+    private String ugyfelNev;
+    private String etelNev;
+    private int mennyiseg;
+
+    public Rendeles(int id, LocalDateTime datum, String ugyfelNev, String etelNev, int mennyiseg) {
+        this.id = id;
+        this.datum = datum;
+        this.ugyfelNev = ugyfelNev;
+        this.etelNev = etelNev;
+        this.mennyiseg = mennyiseg;
+    }
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public LocalDateTime getDatum() { return datum; }
+    public void setDatum(LocalDateTime datum) { this.datum = datum; }
+
+    public String getUgyfelNev() { return ugyfelNev; }
+    public void setUgyfelNev(String ugyfelNev) { this.ugyfelNev = ugyfelNev; }
+
+    public String getEtelNev() { return etelNev; }
+    public void setEtelNev(String etelNev) { this.etelNev = etelNev; }
+
+    public int getMennyiseg() { return mennyiseg; }
+    public void setMennyiseg(int mennyiseg) { this.mennyiseg = mennyiseg; }
+
+    @Override
+    public String toString() {
+        return datum + " | " + ugyfelNev + " | " + etelNev + " x" + mennyiseg;
+    }
+}

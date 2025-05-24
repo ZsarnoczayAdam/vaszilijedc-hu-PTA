@@ -1,0 +1,94 @@
+package com.mycompany.sallainorbert;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class DbManager {
+
+   private static final String DB_URL = "jdbc:sqlite:Etterem.db";
+
+    public Statement getStatement() throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL);
+        return conn.createStatement();
+    }
+
+    public List<Rendeles> getAll() {
+        List<Rendeles> rendelesek = new ArrayList<>();
+        String sql = "SELECT r.id, r.datum, r.ugyfel_nev, e.nev, r.mennyiseg " +
+                     "FROM rendelesek r JOIN etelek e ON r.etel_id = e.id";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                LocalDateTime datum = LocalDateTime.parse(rs.getString("datum"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                String ugyfelNev = rs.getString("ugyfel_nev");
+                String etelNev = rs.getString("nev");
+                int mennyiseg = rs.getInt("mennyiseg");
+                rendelesek.add(new Rendeles(id, datum, ugyfelNev, etelNev, mennyiseg));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hiba a lekérdezés során: " + e.getMessage());
+        }
+        return rendelesek;
+    }
+
+    public void getExpensive() {
+        String sql = "SELECT nev, ar FROM etelek WHERE ar = (SELECT MAX(ar) FROM etelek)";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            System.out.println("Legdrágább étel(ek):");
+            while (rs.next()) {
+                System.out.println(rs.getString("nev") + " - " + rs.getInt("ar") + " Ft");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hiba a lekérdezés során: " + e.getMessage());
+        }
+    }
+
+    public void addNewMenu() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Étel neve: ");
+        String nev = sc.nextLine();
+        System.out.print("Ár (Ft): ");
+        int ar = sc.nextInt();
+
+        String sql = "INSERT INTO etelek (nev, ar) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nev);
+            pstmt.setInt(2, ar);
+            int rows = pstmt.executeUpdate();
+            System.out.println(rows > 0 ? "Sikeres felvétel!" : "Sikertelen művelet.");
+
+        } catch (SQLException e) {
+            System.out.println("Hiba beszúrás során: " + e.getMessage());
+        }
+    }
+
+    public boolean setNewPrice(int id, int ujAr) {
+        String sql = "UPDATE etelek SET ar = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, ujAr);
+            pstmt.setInt(2, id);
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Hiba ár módosítás során: " + e.getMessage());
+            return false;
+        }
+    }
+}
